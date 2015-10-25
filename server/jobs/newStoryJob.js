@@ -1,8 +1,7 @@
-//get and insert the top
+//get top trends and tweet something
 
-
-let tweetJobs = JobCollection(
-  'tweetJobsCollection',
+let trendJobs = JobCollection(
+  'trendJobsCollection',
   // remove the ".jobs" suffix from the collection name
   {'noCollectionSuffix': true}
 );
@@ -10,33 +9,33 @@ let tweetJobs = JobCollection(
 // on startup, remove all old email jobs (jc.forever causes repeating
 // jobs to remain after server restart)
 Meteor.startup(function () {
-  tweetJobs.remove({type: 'tweetJob'});
-  createTweetJob();
+  trendJobs.remove({type: 'trendJob'});
+  createTrendJob();
 });
 
 // create a queueCharges job at a set interval, which repeats infinitely
-let createTweetJob = function () {
-  new Job(tweetJobs, 'tweetJob', {})
+let createTrendJob = function () {
+  new Job(trendJobs, 'trendJob', {})
     .priority('normal')
     .retry({
       retries: 5,                         // If fail, retry 5 times
       wait: 30 * 1000                     // half a minute between attempts
     })
     .repeat({
-      repeats: tweetJobs.forever,  // repeats forever
-      //wait: 24 * 60 * 60 * 1000                // day between repeats
-      wait: 1000
+      repeats: trendJobs.forever,  // repeats forever
+      wait: 24 * 60 * 60 * 1000                // day between repeats
+      //wait: 1000
     })
     .save();                               // Submit job to the queue
 };
 
 
-let boundInsert = Meteor.bindEnvironment(tweet => {
-  Trends.insert({tweet});
-}, 'Failed to insert tweet into Posts collection.');
+//let boundInsert = Meteor.bindEnvironment(trend => {
+//  Trends.insert({trend});
+//}, 'Failed to insert trend into Posts collection.');
 
-tweetJobs.processJobs(
-  "tweetJob",
+trendJobs.processJobs(
+  "trendJob",
   // options for job processing behavior
   {
     concurrency: 1,      //max number of simultaneous outstanding async calls to worker allowed
@@ -122,7 +121,7 @@ tweetJobs.processJobs(
         ];
         //logEach(trends);
 
-        R.forEach(boundInsert, trends)
+        //R.forEach(boundInsert, trends)
 
         let trend1 = trends[0].name;
         let trend2 = trends[1].name;
@@ -135,13 +134,13 @@ tweetJobs.processJobs(
           `"In a world broken by ${trend1} and ${trend2}..."`,
           `"What happens between ${trend1} and ${trend2}..."`
         ];
-        console.log(starterTemplates)
+        //console.log(starterTemplates)
 
         let randNum = Math.floor(Math.random() * starterTemplates.length) - 1;
-        console.log(randNum)
+        //console.log(randNum)
 
         let starter = starterTemplates[randNum];
-        console.log(starter)
+        //console.log(starter)
 
         let starterTweet = `Today's story starter: ${starter}.  #OUaT_daily, http://ouat.meteor.com/`;
         console.log(starterTweet)
@@ -154,7 +153,7 @@ tweetJobs.processJobs(
       });
 
       job.done(
-        console.log("tweet job done")
+        console.log("trend job done")
         //bind the asynchronous callback
         //Meteor.bindEnvironment(function (err, res) {
         //  if (!err) {
@@ -163,7 +162,7 @@ tweetJobs.processJobs(
         //})
       );
     } catch (e) {
-      job.fail('tweet job failed');
+      job.fail('trend job failed');
     }
     finally {
       cb();
@@ -171,4 +170,4 @@ tweetJobs.processJobs(
   }
 );
 
-tweetJobs.startJobServer();
+trendJobs.startJobServer();
