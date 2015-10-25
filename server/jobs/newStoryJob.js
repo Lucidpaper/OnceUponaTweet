@@ -30,9 +30,9 @@ let createTrendJob = function () {
 };
 
 
-//let boundInsert = Meteor.bindEnvironment(trend => {
-//  Trends.insert({trend});
-//}, 'Failed to insert trend into Posts collection.');
+let boundInsert = Meteor.bindEnvironment(a => {
+  Stories.insert({story: [a]});
+}, 'Failed to insert trend into Posts collection.');
 
 trendJobs.processJobs(
   "trendJob",
@@ -54,7 +54,7 @@ trendJobs.processJobs(
         //console.log(err)
         //console.log(data)
         //console.log(response)
-        //
+
         //let trends = data[0].trends
 
         let trends = [
@@ -119,9 +119,6 @@ trendJobs.processJobs(
             promoted_content: null
           }
         ];
-        //logEach(trends);
-
-        //R.forEach(boundInsert, trends)
 
         let trend1 = trends[0].name;
         let trend2 = trends[1].name;
@@ -144,6 +141,8 @@ trendJobs.processJobs(
 
         let starterTweet = `Today's story starter: ${starter}.  #OUaT_daily, http://ouat.meteor.com/`;
         console.log(starterTweet)
+
+        boundInsert(starterTweet);
 
         //T.post('statuses/update', {status: starterTweet}, function (err, data, response) {
         //  //console.log(err)
