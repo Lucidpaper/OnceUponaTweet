@@ -135,14 +135,15 @@ tweetJobs.processJobs(
           `"In a world broken by ${trend1} and ${trend2}..."`,
           `"What happens between ${trend1} and ${trend2}..."`
         ];
+        console.log(starterTemplates)
 
-        let randNum = Math.floor(Math.random() * starterTemplates.length) + 1;
+        let randNum = Math.floor(Math.random() * starterTemplates.length) - 1;
+        console.log(randNum)
 
-        //let storyNumber = Stories.find().fetch().count() + 1;
-        let storyNumber = 1
-        //console.log(storyNumber)
+        let starter = starterTemplates[randNum];
+        console.log(starter)
 
-        let starterTweet = "Today's story starter: " + starterTemplates[randNum] + `"#OUaT_${storyNumber}"`;
+        let starterTweet = `Today's story starter: ${starter}.  #OUaT_daily, http://ouat.meteor.com/`;
         console.log(starterTweet)
 
         //T.post('statuses/update', {status: starterTweet}, function (err, data, response) {
@@ -150,7 +151,6 @@ tweetJobs.processJobs(
         //  console.log(data)
         //  //console.log(response)
         //})
-
       });
 
       job.done(
