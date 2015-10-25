@@ -55,8 +55,9 @@ tweetJobs.processJobs(
         //console.log(err)
         //console.log(data)
         //console.log(response)
-
+        //
         //let trends = data[0].trends
+
         let trends = [
           {
             name: 'Flip Saunders',
@@ -125,20 +126,21 @@ tweetJobs.processJobs(
 
         let trend1 = trends[0].name;
         let trend2 = trends[1].name;
-        //let storyNumber =
 
-        let startertemplates = [
+        let starterTemplates = [
           `"Once upon a tweet, ${trend1} and ${trend2}..."`,
           `"And then ${trend1} said to ${trend2}..."`,
           `"When they first met, ${trend1} and ${trend2}..."`,
           `"In an alternate universe, ${trend1} and ${trend2}"`
         ];
 
-
-        //let starterTweet =`"Once upon a tweet, ${trend1} and ${trend2}..." #OUaT_${storyNumber}`
         let randNum = Math.floor(Math.random() * 4) + 1;
-        let starterTweet = startertemplates[randNum];
 
+        //let storyNumber = Stories.find().count() + 1;
+        let storyNumber = 1
+        //console.log(storyNumber)
+
+        let starterTweet = "Today's story starter: " + starterTemplates[randNum] + `"#OUaT_${storyNumber}"`;
         console.log(starterTweet)
 
         //T.post('statuses/update', {status: starterTweet}, function (err, data, response) {
