@@ -1,0 +1,6 @@
+Twit = new TwitMaker({
+    consumer_key:         'TwitterConsumerKey'
+  , consumer_secret:      'TwitterConsumerSecret'
+  , access_token:         'TwitterAccessToken'
+  , access_token_secret:  ''
+});
