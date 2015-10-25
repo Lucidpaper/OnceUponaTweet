@@ -1,3 +1,3 @@
-Meteor.publish('Things', () => {
-  return Things.find();
+Meteor.publish('Trends', () => {
+  return Trends.find();
 });

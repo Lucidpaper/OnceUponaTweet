@@ -1,3 +1,6 @@
+//get and insert the top
+
+
 let tweetJobs = JobCollection(
   'tweetJobsCollection',
   // remove the ".jobs" suffix from the collection name
@@ -17,24 +20,18 @@ let createTweetJob = function () {
     .priority('normal')
     .retry({
       retries: 5,                         // If fail, retry 5 times
-      wait: 1000                     // half a minute between attempts
+      wait: 30 * 1000                     // half a minute between attempts
     })
     .repeat({
-      //repeats: tweetJobs.forever,  // repeats forever
-      //wait: 60 * 60 * 1000                // hour between repeats
-      wait: 1000
+      repeats: tweetJobs.forever,  // repeats forever
+      wait: 24 * 60 * 60 * 1000                // day between repeats
     })
     .save();                               // Submit job to the queue
 };
 
 
 let boundInsert = Meteor.bindEnvironment(tweet => {
-  //Tweets.insert({
-  //  "user_name": tweet.user.name,
-  //  "screen_name": tweet.user.screen_name,
-  //  "text": tweet.text
-  //})
-  Things.insert({tweet});
+  Trends.insert({tweet});
 }, 'Failed to insert tweet into Posts collection.');
 
 tweetJobs.processJobs(
@@ -43,22 +40,22 @@ tweetJobs.processJobs(
   {
     concurrency: 1,      //max number of simultaneous outstanding async calls to worker allowed
     payload: 1,             //max number of job objects to provide to each worker
-    pollInterval: 1000,   //how often to check the collection for more
+    pollInterval: 5 * 60 * 1000,   //how often to check the collection for more
     // jobs (ms)
     prefetch: 0           //how many extra jobs to request to compensate for latency
   },
   function (job, cb) {
-      console.log("job running!")
+    console.log("job running!")
+
     try {
       T.get('trends/place', {
         id: 23424977
       }, (err, data, response) => {
         //console.log(data)
-        console.log(err)
+        //console.log(err)
         //console.log(response)
 
         //let trends = data[0].trends
-        //logEach(trends);
         let trends = [
           {
             name: 'Flip Saunders',
@@ -120,13 +117,22 @@ tweetJobs.processJobs(
             url: 'http://twitter.com/search?q=%22Jarvis+Landry%22',
             promoted_content: null
           }
-        ]
+        ];
+        //logEach(trends);
 
         R.forEach(boundInsert, trends)
+
+        //let trend1 = trends[0];
+        //let trend2 = trends[1];
+        //
+        //let starterTweet =`Fifteen is ${trend1} and ${trend2}...`
+
+
+
       });
 
       job.done(
-        console.log("tweet job ran")
+        console.log("tweet job done")
         //bind the asynchronous callback
         //Meteor.bindEnvironment(function (err, res) {
         //  if (!err) {
