@@ -20,6 +20,7 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 accounts-twitter
 accounts-ui
 
+vsivsi:job-collection
 iron:router
 mrt:twit
 ramda:ramda

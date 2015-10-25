@@ -1,6 +1,0 @@
-Twit = new TwitMaker({
-    consumer_key:         Meteor.settings.TwitterConsumerKey
-  , consumer_secret:      Meteor.settings.TwitterConsumerSecret
-  , access_token:         Meteor.settings.TwitterAccessToken
-  , access_token_secret:  Meteor.settings.TwitterAccessTokenSecret
-});
