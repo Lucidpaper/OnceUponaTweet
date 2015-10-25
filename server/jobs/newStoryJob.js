@@ -131,12 +131,14 @@ tweetJobs.processJobs(
           `"Once upon a tweet, ${trend1} and ${trend2}..."`,
           `"And then ${trend1} said to ${trend2}..."`,
           `"When they first met, ${trend1} and ${trend2}..."`,
-          `"In an alternate universe, ${trend1} and ${trend2}"`
+          `"In an alternate universe, ${trend1} and ${trend2}..."`,
+          `"In a world broken by ${trend1} and ${trend2}..."`,
+          `"What happens between ${trend1} and ${trend2}..."`
         ];
 
 
         //let starterTweet =`"Once upon a tweet, ${trend1} and ${trend2}..." #OUaT_${storyNumber}`
-        let randNum = Math.floor(Math.random() * 4) + 1;
+        let randNum = Math.floor(Math.random() * startertemplates.length) + 1;
         let starterTweet = startertemplates[randNum];
 
         console.log(starterTweet)
