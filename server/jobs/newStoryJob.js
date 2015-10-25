@@ -1,11 +1,4 @@
-//let T = new TwitMaker({
-//  consumer_key: Meteor.settings.private.twitter.consumer_key,
-//  consumer_secret: Meteor.settings.private.twitter.consumer_secret,
-//  access_token: Meteor.settings.private.twitter.access_token,
-//  access_token_secret: Meteor.settings.private.twitter.access_token_secret,
-//});
-
-var tweetJobs = JobCollection(
+let tweetJobs = JobCollection(
   'tweetJobsCollection',
   // remove the ".jobs" suffix from the collection name
   {'noCollectionSuffix': true}
@@ -19,17 +12,17 @@ Meteor.startup(function () {
 });
 
 // create a queueCharges job at a set interval, which repeats infinitely
-var createTweetJob = function () {
+let createTweetJob = function () {
   new Job(tweetJobs, 'tweetJob', {})
     .priority('normal')
     .retry({
       retries: 5,                         // If fail, retry 5 times
-      wait: 1 * 1000                     // half a minute between attempts
+      wait: 5 * 1000                     // half a minute between attempts
     })
     .repeat({
-      repeats: tweetJobs.forever,  // repeats forever
+      //repeats: tweetJobs.forever,  // repeats forever
       //wait: 60 * 60 * 1000                // hour between repeats
-      wait: 1 * 1000
+      wait: 5 * 1000
     })
     .save();                               // Submit job to the queue
 };
@@ -41,7 +34,7 @@ tweetJobs.processJobs(
   {
     concurrency: 1,      //max number of simultaneous outstanding async calls to worker allowed
     payload: 1,             //max number of job objects to provide to each worker
-    pollInterval: 1 * 1000,   //how often to check the collection for more
+    pollInterval: 5 * 1000,   //how often to check the collection for more
     // jobs (ms)
     prefetch: 0           //how many extra jobs to request to compensate for latency
   },
@@ -55,7 +48,19 @@ tweetJobs.processJobs(
       T.get('trends/place', {
         id: 23424977
       }, (err, data, response) => {
-        console.log(data[0].trends[0].name)
+        let currentTrends = (data[0].trends)
+        let logeach = (thingsToLog) => {
+          R.forEach(
+            (x) => {console.log(x)},
+            thingsToLog
+          )
+        };
+
+        logeach(currentTrends);
+        //R.forEach((x) => {console.log(x)}, currentTrends)
+
+
+
         //let boundInsert = Meteor.bindEnvironment(tweet => {
         //  //Tweets.insert({
         //  //  "user_name": tweet.user.name,
@@ -66,33 +71,23 @@ tweetJobs.processJobs(
         //}, 'Failed to insert tweet into Posts collection.');
         //
         //R.forEach(boundInsert, data)
-      })
+      });
 
-
-
-
-
-
-      //worldwide trending
-      //https://api.twitter.com/1.1/trends/place.json?id=1
-      //USA tredning
-      //https://api.twitter.com/1.1/trends/place.json?id=23424977
-
-      //job.done(
-      //  console.log("tweet job ran");
-      //  //bind the asynchronous callback
-      //  Meteor.bindEnvironment(function (err, res) {
-      //    if (!err) {
-      //      job.remove();
-      //    }
-      //  })
-      //);
+      job.done(
+        console.log("tweet job ran")
+        //bind the asynchronous callback
+        //Meteor.bindEnvironment(function (err, res) {
+        //  if (!err) {
+        //    job.remove();
+        //  }
+        //})
+      );
     } catch (e) {
       job.fail('tweet job failed');
     }
-    //finally {
-    //  cb();
-    //}
+    finally {
+      cb();
+    }
   }
 );
 
