@@ -5,10 +5,10 @@
 //        title: "it's a thing!"
 //      })
 //    }
-//    if (Stories.find().count() === 0) {
-//      Stories.insert({
-//        title: "it's a story!"
-//      })
-//    }
+    if (Stories.find().count() === 0) {
+      Stories.insert({
+        story: []
+      })
+    }
 //  }
 //);
