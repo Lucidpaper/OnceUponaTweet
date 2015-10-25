@@ -17,16 +17,25 @@ let createTweetJob = function () {
     .priority('normal')
     .retry({
       retries: 5,                         // If fail, retry 5 times
-      wait: 5 * 1000                     // half a minute between attempts
+      wait: 60*60*1000                     // half a minute between attempts
     })
     .repeat({
       //repeats: tweetJobs.forever,  // repeats forever
       //wait: 60 * 60 * 1000                // hour between repeats
-      wait: 5 * 1000
+      wait: 60*60*1000
     })
     .save();                               // Submit job to the queue
 };
 
+
+let boundInsert = Meteor.bindEnvironment(tweet => {
+  //Tweets.insert({
+  //  "user_name": tweet.user.name,
+  //  "screen_name": tweet.user.screen_name,
+  //  "text": tweet.text
+  //})
+  Things.insert({tweet});
+}, 'Failed to insert tweet into Posts collection.');
 
 tweetJobs.processJobs(
   "tweetJob",
@@ -34,33 +43,24 @@ tweetJobs.processJobs(
   {
     concurrency: 1,      //max number of simultaneous outstanding async calls to worker allowed
     payload: 1,             //max number of job objects to provide to each worker
-    pollInterval: 5 * 1000,   //how often to check the collection for more
+    pollInterval: 60*60*1000,   //how often to check the collection for more
     // jobs (ms)
     prefetch: 0           //how many extra jobs to request to compensate for latency
   },
   function (job, cb) {
       console.log("job running!")
     try {
-      //T.post('statuses/update', {status: 'hello world!'}, function (err, data, response) {
-      //  console.log(data)
-      //})
-
       T.get('trends/place', {
         id: 23424977
       }, (err, data, response) => {
-        logEach(data[0].trends);
+        console.log(data)
+        console.log(err)
+        console.log(response)
 
+        let trends = data[0].trends
+        logEach(trends);
 
-        //let boundInsert = Meteor.bindEnvironment(tweet => {
-        //  //Tweets.insert({
-        //  //  "user_name": tweet.user.name,
-        //  //  "screen_name": tweet.user.screen_name,
-        //  //  "text": tweet.text
-        //  //})
-        //  Things.insert({tweet});
-        //}, 'Failed to insert tweet into Posts collection.');
-        //
-        //R.forEach(boundInsert, data)
+        R.forEach(boundInsert, trends)
       });
 
       job.done(
