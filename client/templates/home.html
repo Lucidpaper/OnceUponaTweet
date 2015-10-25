@@ -2,10 +2,29 @@
 
     <div class="container">
         <div class="page-header">
-            <h1>Sticky footer</h1>
+            {{> logoSVG}}
         </div>
-        <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS.</p>
-        <p>Use <a href="../sticky-footer-navbar">the sticky footer with a fixed navbar</a> if need be, too.</p>
+
+        <div class="story">
+            <header>
+                <h1><span class="title">Once Upon a Time</span> #DonaldTrump and #Benghazi...</h1>
+            </header>
+
+            <section class="tweets">
+                <p>
+                    <span class="tweet" data-toggle="popover" title="@yankeyhotel" data-content="Hey I did this.">Here is a story about somethings that just so happen to fit inside a tweet. And Here is a story about some stuff</span>
+                </p>
+
+                <div class="nexts">
+                    <p>Choose the next part of the story by retweeting.</p>
+                   <div class="next">
+                       <span class="tweet">Here is the tweet text...</span>
+                       <button class="btn btn-blue"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+                   </div>
+                </div>
+
+            </section>
+        </div>
     </div>
 
     {{> footer }}
