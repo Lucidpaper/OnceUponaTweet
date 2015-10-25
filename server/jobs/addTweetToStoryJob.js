@@ -21,8 +21,8 @@ let createGetTopTweetJob = function () {
     })
     .repeat({
       repeats: getTopTweetJobs.forever,  // repeats forever
-      //wait: 60 * 60 * 1000                // day between repeats
-      wait: 1000
+      wait: 60 * 60 * 1000                // day between repeats
+      //wait: 1000
     })
     .save();                               // Submit job to the queue
 };
