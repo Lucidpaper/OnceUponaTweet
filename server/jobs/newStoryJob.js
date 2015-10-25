@@ -25,6 +25,7 @@ let createTweetJob = function () {
     .repeat({
       repeats: tweetJobs.forever,  // repeats forever
       wait: 24 * 60 * 60 * 1000                // day between repeats
+      //wait: 1000
     })
     .save();                               // Submit job to the queue
 };
@@ -40,7 +41,7 @@ tweetJobs.processJobs(
   {
     concurrency: 1,      //max number of simultaneous outstanding async calls to worker allowed
     payload: 1,             //max number of job objects to provide to each worker
-    pollInterval: 5 * 60 * 1000,   //how often to check the collection for more
+    pollInterval: 1000,   //how often to check the collection for more
     // jobs (ms)
     prefetch: 0           //how many extra jobs to request to compensate for latency
   },
@@ -51,8 +52,8 @@ tweetJobs.processJobs(
       T.get('trends/place', {
         id: 23424977
       }, (err, data, response) => {
-        //console.log(data)
         //console.log(err)
+        //console.log(data)
         //console.log(response)
 
         //let trends = data[0].trends
@@ -122,12 +123,29 @@ tweetJobs.processJobs(
 
         R.forEach(boundInsert, trends)
 
-        //let trend1 = trends[0];
-        //let trend2 = trends[1];
-        //
-        //let starterTweet =`Fifteen is ${trend1} and ${trend2}...`
+        let trend1 = trends[0].name;
+        let trend2 = trends[1].name;
+        //let storyNumber =
+
+        let startertemplates = [
+          `"Once upon a tweet, ${trend1} and ${trend2}..."`,
+          `"And then ${trend1} said to ${trend2}..."`,
+          `"When they first met, ${trend1} and ${trend2}..."`,
+          `"In an alternate universe, ${trend1} and ${trend2}"`
+        ];
 
 
+        //let starterTweet =`"Once upon a tweet, ${trend1} and ${trend2}..." #OUaT_${storyNumber}`
+        let randNum = Math.floor(Math.random() * 4) + 1;
+        let starterTweet = startertemplates[randNum];
+
+        console.log(starterTweet)
+
+        //T.post('statuses/update', {status: starterTweet}, function (err, data, response) {
+        //  //console.log(err)
+        //  console.log(data)
+        //  //console.log(response)
+        //})
 
       });
 
