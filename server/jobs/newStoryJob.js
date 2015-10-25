@@ -24,8 +24,8 @@ let createTweetJob = function () {
     })
     .repeat({
       repeats: tweetJobs.forever,  // repeats forever
-      wait: 24 * 60 * 60 * 1000                // day between repeats
-      //wait: 1000
+      //wait: 24 * 60 * 60 * 1000                // day between repeats
+      wait: 1000
     })
     .save();                               // Submit job to the queue
 };
@@ -136,10 +136,9 @@ tweetJobs.processJobs(
           `"What happens between ${trend1} and ${trend2}..."`
         ];
 
-        let randNum = Math.floor(Math.random() * startertemplates.length) + 1;
-        let starterTweet = startertemplates[randNum];
+        let randNum = Math.floor(Math.random() * starterTemplates.length) + 1;
 
-        //let storyNumber = Stories.find().count() + 1;
+        //let storyNumber = Stories.find().fetch().count() + 1;
         let storyNumber = 1
         //console.log(storyNumber)
 
