@@ -2,6 +2,7 @@
 @offwhite: #f1f1f1;
 @yellow: #feea7d;
 @blue: #62c6ec;
+@purpleOffLight: #ece9f2;
 @purpleLight: #6f5d7f;
 @purpleDark: #3a3042;
 
@@ -12,6 +13,18 @@
   transition: color .3s ease-out;
   &:hover {
     color: #fff;
+  }
+}
+
+
+.clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
   }
 }
 
@@ -150,8 +163,16 @@ header {
   .nexts {
     margin-top: 40px;
     .next {
-      clear: both;
+      .clearfix();
+
+      .left {
+        float: left;
+        width: 80%;
+      }
       .btn { float: right; }
+
+      .user { color: @blue; }
+
     }
   }
 
