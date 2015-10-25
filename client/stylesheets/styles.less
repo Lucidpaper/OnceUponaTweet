@@ -2,13 +2,14 @@
 @offwhite: #f1f1f1;
 @yellow: #feea7d;
 @blue: #62c6ec;
+@pink: #ea2b5d;
 @purpleOffLight: #ece9f2;
 @purpleLight: #6f5d7f;
 @purpleDark: #3a3042;
 
 
 
-.btn {
+.btn-blue {
   background: @blue;
   color: #3a3042;
   transition: color .3s ease-out;
@@ -17,6 +18,31 @@
   }
 }
 
+.btn-pink {
+  background: @pink;
+  color: #fff;
+  transition: color .3s ease-out;
+  &:hover {
+    color: @purpleDark;
+  }
+}
+
+.btn-purple {
+  font-weight: bold;
+  background: @purpleDark;
+  color: @blue;
+  transition: color .3s ease-out;
+  &:hover {
+    color: @pink;
+  }
+  &#cta {
+    display: block;
+    font-size: 18px;
+    margin: 30px auto 0;
+    max-width: 320px;
+    text-align: center;
+  }
+}
 
 .clearfix() {
   &:before,
@@ -143,14 +169,16 @@ header {
   text-align: center;
   h1 {
     display: block;
-    font-size: 42px;
+    font-size: 52px;
     font-weight: 100;
   }
   .title { display: block; }
 }
 
 .tweets {
+  border-bottom: 1px solid @offwhite;
   margin: 0 5px 60px;
+  padding-bottom: 40px;
 
   .tweet {
     border-radius: 5px;
@@ -161,23 +189,30 @@ header {
       cursor: pointer;
     }
   }
+}
 
-  .nexts {
-    margin-top: 40px;
-    .next {
-      .clearfix();
 
-      .left {
-        float: left;
-        width: 80%;
-      }
-      .btn { float: right; }
+.nexts {
+  margin: 0 5px 40px;
+  .next {
+    .clearfix();
+    font-size: 18px;
 
-      .user { color: @blue; }
-
+    .left {
+      float: left;
+      width: 80%;
     }
-  }
 
+    .right {
+      float: right;
+      text-align: right;
+      width: 20%;
+    }
+
+    .user {
+    }
+
+  }
 }
 
 
