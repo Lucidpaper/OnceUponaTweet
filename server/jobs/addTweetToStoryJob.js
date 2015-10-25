@@ -51,17 +51,18 @@ getTopTweetJobs.processJobs(
 
     try {
       T.get('search/tweets', {
-        q: 'banana',
-        count: 3
+        q: '#OUaT_daily'
       }, (err, data, response) => {
         //console.log(err)
         //console.log(data)
         //console.log(response)
 
-        console.log(data.statuses[0].text)
+        //console.log(data.statuses[0].text)
         //console.log(data.statuses[0].created_at)
 
-        let tweet = data.statuses[0]
+        //TODO: use tweets from last hour
+
+        let tweet = data.statuses[0];
         R.forEach(
           (status) => {
             if (status.retweet_count > tweet.retweet_count){
@@ -72,7 +73,8 @@ getTopTweetJobs.processJobs(
         );
         boundInsert(tweet)
 
-        //T.post('statuses/update', {status: starterTweet}, function (err, data, response) {
+        //T.post('statuses/update', {status: tweet}, function (err, data,
+        // response) {
         //  //console.log(err)
         //  console.log(data)
         //  //console.log(response)
@@ -80,13 +82,12 @@ getTopTweetJobs.processJobs(
       });
 
       job.done(
-        console.log("tweet job done")
-        //bind the asynchronous callback
-        //Meteor.bindEnvironment(function (err, res) {
-        //  if (!err) {
-        //    job.remove();
-        //  }
-        //})
+        //console.log("cancelCharges ran");
+        Meteor.bindEnvironment(function (err, res) { // bind the asynchronous callback
+          if (!err) {
+            job.remove();
+          }
+        })
       );
     } catch (e) {
       job.fail('tweet job failed');
