@@ -48,17 +48,7 @@ tweetJobs.processJobs(
       T.get('trends/place', {
         id: 23424977
       }, (err, data, response) => {
-        let currentTrends = (data[0].trends)
-        let logeach = (thingsToLog) => {
-          R.forEach(
-            (x) => {console.log(x)},
-            thingsToLog
-          )
-        };
-
-        logeach(currentTrends);
-        //R.forEach((x) => {console.log(x)}, currentTrends)
-
+        logEach(data[0].trends);
 
 
         //let boundInsert = Meteor.bindEnvironment(tweet => {
