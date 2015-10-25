@@ -1,2 +1,4 @@
 .idea
 settings.json
+settings-production.json
+settings-development.json
