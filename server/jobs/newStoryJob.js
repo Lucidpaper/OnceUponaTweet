@@ -129,7 +129,8 @@ trendJobs.processJobs(
           `"When they first met, ${trend1} and ${trend2}..."`,
           `"In an alternate universe, ${trend1} and ${trend2}..."`,
           `"In a world broken by ${trend1} and ${trend2}..."`,
-          `"What happens between ${trend1} and ${trend2}..."`
+          `"${trend1} is out for a stroll...a wild ${trend2} appears!"`,
+          `"If a ${trend1} falls in the ${trend2}s and nobody hears it, "`,
         ];
         //console.log(starterTemplates)
 
